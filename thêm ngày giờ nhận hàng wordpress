@@ -1,0 +1,46 @@
+
+/**
+ * @snippet       Dispatch Date @ WooCommerce Single Product
+ * @testedwith    WooCommerce 3.9
+ */
+add_action( 'woocommerce_after_add_to_cart_form', 'hoangweb_dispatch_info_single_product' );
+     
+function hoangweb_dispatch_info_single_product() {
+   date_default_timezone_set('Asia/Ho_Chi_Minh');
+	//
+	$days = array(
+  'Chủ nhật',
+  'Thứ 2',
+  'Thứ 3',
+  'Thứ 4',
+  'Thứ 5',
+  'Thứ 6',
+  'Thứ 7'
+);
+	    if ( date( 'H' ) >= 12 ) { // nếu đặt hàng sau 12h
+			//THỨ
+			$today = date('w');
+			$next_day_timestamp = strtotime('+1 day'); // Tạo một timestamp mới với giá trị thời gian của ngày mai
+			$next_day = date('w', $next_day_timestamp); // Lấy số thứ tự của ngày trong tuần cho ngày mai
+			// Tăng giá trị của $today lên 1 nếu ngày mai không phải là chủ nhật, ngược lại giá trị của $today được gán là 0
+			$today = ($next_day !== '0') ? ($today + 1) % 7 : 0;
+			//NGÀY
+			$date = date('d/m', strtotime('tomorrow')); // ngày mai 2/5
+			$ngayy = "(".$date.")";
+		
+   } 
+   else {
+	   	//THỨ
+		$today = date('w');
+	   	$days[$today] = "Hôm nay";
+		//NGÀY
+		$date = date('d/m'); // ngày HN 1/5
+		$ngayy = "(".$date.")";
+	
+   }
+	
+   //$html = "<br><div class='woocommerce-message' style='clear:both'>Đơn hàng được giao vào {$del_day}</div>"; backup
+   $html = "<br><div class='woocommerce-message' style='clear:both; color: #219653'>Giao hàng $days[$today] $ngayy</div>";
+     
+   echo $html;
+}
