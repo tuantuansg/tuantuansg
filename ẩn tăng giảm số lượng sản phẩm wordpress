@@ -1,0 +1,4 @@
+/* Để ẩn quantity buttons_added (nút tăng/giảm số lượng sản phẩm) tại trang sản phẩm  */
+.single-product .quantity {
+  display: none;
+}
